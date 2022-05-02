@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=], initial-scale=1.0">
+    <title>Consumindo API Viacep</title>
+</head>
+<body>
+    <h1>Consulta Endereço Viacep</h1>
+    <label>Digite seu CEP: </label>
+    <input type="number" id="cep"/>
+    <button onclick="consultaEndereco()">Consultar</button>
+    <div id="resultado">
+        <p>Seu resultado aqui</p>
+    </div>
+
+    <script>
+    function consultaEndereco() {
+     let cep= document.querySelector('#cep').value;
+
+    if (cep.length !==8){
+        alert('Cep Invalido!')
+        return
+    }
+
+    let url= `https://viacep.com.br/ws/${cep}/json/`;
+
+    fetch(url).then(function(response){
+        response.json().then(function(data){
+            console.log(data)
+            mostrarEndereço(data)
+        })
+    });
+    
+}
+    function mostrarEndereço(dados) {
+        let resultado = document.querySelector('#resultado')
+        resultado.innerHTML = `<p>Endereço: ${dados.logradouro}</p>
+        <p>Complemento: ${dados.complemento}</p>
+        <p>Bairro: ${dados.bairro}</p>
+        <p>Cidade: ${dados.localidade} - ${dados.uf}</p>
+        <p>DDD: ${dados.ddd}</p>`
+}
+
+
+</script>
+</body>
+ </html>
